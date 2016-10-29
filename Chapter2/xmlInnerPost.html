@@ -1,0 +1,75 @@
+<html>
+	<head>
+
+		<title> An Ajax Example </title>
+
+		<script language = "javascript">
+			
+
+			function getData(datasource, divID , value)
+
+			{
+				var XMLHttpRequestObject = false;
+
+				if (window.XMLHttpRequest){
+				    XMLHttpRequestObject = new XMLHttpRequest();
+
+				}else if(window.ActiveXObject) {
+				    XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+
+				if (XMLHttpRequestObject) {
+
+				 var obj = document.getElementById(divID);
+
+				 XMLHttpRequestObject.open("POST", datasource);
+				
+				 XMLHttpRequestObject.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+
+				XMLHttpRequestObject.onreadystatechange = function()
+
+				{
+
+					if (XMLHttpRequestObject.readyState == 4 &&
+
+						XMLHttpRequestObject.status == 200) {
+
+						obj.innerHTML = XMLHttpRequestObject.responseText
+
+						}
+				}
+
+				XMLHttpRequestObject.send("data=" + value);
+
+				}
+
+			}
+
+		</script>
+
+	</head>
+
+	<body>
+
+		<h1> An Ajax Example </h1>
+
+		<form>
+
+			<input type = "button" value = "Fetch the message 1"
+
+			onclick = "getData('dataresponderpost.php','targetDiv',1)">
+
+			<input type = "button" value = "Fetch the message 2"
+
+			onclick = "getData('dataresponderpost.php','targetDiv',2)">
+
+		</form>
+
+		<div id = "targetDiv">
+
+			<p> the fetched message will appear </p>
+
+		</div>
+
+	</body>
+</html>

@@ -1,0 +1,45 @@
+<html>
+	<head>
+
+		<title> An Ajax Example </title>
+
+		<script type = "text/javascript" src="downloadTextFramework.js"> </script>
+		
+		<script language = "javascript">
+		
+			function callbackMessage(text){
+				var obj = document.getElementById("targetDiv");
+				obj.innerHTML = text;
+			}
+
+
+		</script>
+
+	</head>
+
+	<body>
+
+		<h1> An Ajax Example </h1>
+
+		<form>
+
+			<input type = "button" value = "Fetch the message 1"
+			
+			onclick = "downloadText('dataresponder.php?data=1',callbackMessage)">
+
+
+
+			<input type = "button" value = "Fetch the message 2"
+
+			onclick = "downloadText('dataresponder.php?data=2',callbackMessage)">
+
+		</form>
+
+		<div id = "targetDiv">
+
+			<p> the fetched message will appear </p>
+
+		</div>
+
+	</body>
+</html>

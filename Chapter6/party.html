@@ -1,0 +1,99 @@
+<html>
+  <head>
+
+    <title>Retrieving the Third Guest From party.xml</title>
+
+    <script language = "javascript">
+
+      function getData()
+      {
+        var firefoxFlag = false;
+        var XMLHttpRequestObject = false; 
+
+        if (window.XMLHttpRequest) {
+          XMLHttpRequestObject = new XMLHttpRequest();
+          XMLHttpRequestObject.overrideMimeType("text/xml");
+          firefoxFlag = true;
+        } else if (window.ActiveXObject) {
+          XMLHttpRequestObject = new 
+            ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        if(XMLHttpRequestObject) {
+          XMLHttpRequestObject.open("GET", "party.xml", true); 
+
+          XMLHttpRequestObject.onreadystatechange = function() 
+          { 
+            if (XMLHttpRequestObject.readyState == 4 && 
+              XMLHttpRequestObject.status == 200) { 
+            var xmlDocument = XMLHttpRequestObject.responseXML;
+            if(firefoxFlag){
+              removeWhitespace(xmlDocument);
+            }
+            displayGuest(xmlDocument);
+            } 
+          } 
+
+          XMLHttpRequestObject.send(null); 
+        }
+      }
+
+      function displayGuest (xmldoc)
+      {
+        var partiesNode, partyNode, peopleNode; 
+        var firstNameNode, lastNameNode, displayText;
+
+        partiesNode = xmldoc.documentElement;
+        partyNode = partiesNode.firstChild;
+        peopleNode = partyNode.lastChild;
+        personNode = peopleNode.lastChild;
+        firstNameNode = personNode.firstChild;
+        lastNameNode = firstNameNode.nextSibling;
+
+        displayText = "The third guest was " + 
+          firstNameNode.firstChild.nodeValue + ' ' 
+          + lastNameNode.firstChild.nodeValue;
+
+        var target = document.getElementById("targetDiv");
+        target.innerHTML=displayText;
+      }
+
+      function removeWhitespace(xml) 
+      {
+        var loopIndex;
+
+        for (loopIndex = 0; loopIndex < xml.childNodes.length; 
+          loopIndex++) {
+
+          var currentNode = xml.childNodes[loopIndex];
+
+          if (currentNode.nodeType == 1) {
+            removeWhitespace(currentNode);
+          }
+
+          if (((/^\s+$/.test(currentNode.nodeValue))) &&   
+            (currentNode.nodeType == 3)) {
+              xml.removeChild(xml.childNodes[loopIndex--]);
+          }
+        }
+      }
+    </script>
+
+  </head>
+
+  <body>
+
+    <h1>Retrieving the Third Guest From party.xml</h1>
+
+    <form>
+      <input type = "button" value = "Get the third guest" 
+        onclick = "getData()"> 
+    </form>
+
+    <div id="targetDiv" width =100 height=100>
+      Who was the third guest?
+    </div>
+
+  </body>
+
+</html>

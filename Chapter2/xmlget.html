@@ -1,0 +1,85 @@
+<html>
+	<head>
+
+		<title> An Ajax Example </title>
+
+		<script language = "javascript">
+			
+			var XMLHttpRequestObject = false;
+			
+			var colors;
+
+				if (window.XMLHttpRequest){
+				    XMLHttpRequestObject = new XMLHttpRequest();
+					XMLHttpRequestObject.overrideMimeType("text/xml");
+				}else if(window.ActiveXObject) {
+				    XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+
+			function getData(datasource, divID)
+
+			{
+				if (XMLHttpRequestObject) {
+
+				 var obj = document.getElementById(divID);
+
+				 XMLHttpRequestObject.open("GET", datasource);
+				
+				<!-- XMLHttpRequestObject.setRequestHeader('Content-Type','application/x-www-form-urlencoded'); -->
+
+				XMLHttpRequestObject.onreadystatechange = function()
+
+				{
+
+					if (XMLHttpRequestObject.readyState == 4 &&
+
+						XMLHttpRequestObject.status == 200) {
+
+						var xmlDocument = XMLHttpRequestObject.responseXML;
+						
+						colors = xmlDocument.getElementsByTagName("color");
+						
+						obj.innerHTML = "here are the fethced colors :<ul>";
+						
+						for(var loopi = 0; loopi < colors.length ; loopi++){
+						
+							obj.innerHTML += "<li>" + colors[loopi].firstChild.nodeValue + "</li>";
+						
+						}
+						
+						obj.innerHTML += "</ul>";
+
+						}
+				}
+
+				XMLHttpRequestObject.send(null);
+
+				}
+
+			}
+
+		</script>
+
+	</head>
+
+	<body>
+
+		<h1> An Ajax Example </h1>
+
+		<form>
+
+		
+			<input type = "button" value = "Fetch the colors XML"
+
+			onclick = "getData('colors.xml','targetDiv')">
+
+		</form>
+
+		<div id = "targetDiv" width = 100 height = 100 >
+
+			the list of colors will appear here 
+
+		</div>
+
+	</body>
+</html>

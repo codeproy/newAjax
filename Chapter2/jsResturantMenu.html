@@ -1,0 +1,83 @@
+<html>
+	<head>
+
+		<title> An Ajax Example </title>
+
+		<script language = "javascript">
+			
+
+			function getData(datasource, divID , value)
+
+			{
+				var XMLHttpRequestObject = false;
+				
+
+				if (window.XMLHttpRequest){
+				    XMLHttpRequestObject = new XMLHttpRequest();
+
+				}else if(window.ActiveXObject) {
+				    XMLHttpRequestObject = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+
+				if (XMLHttpRequestObject) {
+
+				 
+
+				 XMLHttpRequestObject.open("POST", datasource);
+				
+				 XMLHttpRequestObject.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+
+				XMLHttpRequestObject.onreadystatechange = function()
+
+				{
+
+					if (XMLHttpRequestObject.readyState == 4 &&
+
+						XMLHttpRequestObject.status == 200) {
+
+						eval(XMLHttpRequestObject.responseText)
+
+						}
+				}
+
+				XMLHttpRequestObject.send("data=" + value);
+
+				}
+
+			}
+			
+			function menu(ivalue)
+			{
+					var obj = document.getElementById("targetDiv");
+				    obj.innerHTML= " egg and bread in breakfast" + ivalue;
+	
+			}
+
+		</script>
+
+	</head>
+
+	<body>
+
+		<h1> An Ajax Example </h1>
+
+		<form>
+
+			<input type = "button" value = "Fetch the Breakfast Menu "
+
+			onclick = "getData('datamenupost.php','targetDiv',1)">
+
+			<input type = "button" value = "Fetch the Lunch Menu"
+
+			onclick = "getData('datamenupost.php','targetDiv',2)">
+
+		</form>
+
+		<div id = "targetDiv">
+
+			<p> the menu will appear here </p>
+
+		</div>
+
+	</body>
+</html>
